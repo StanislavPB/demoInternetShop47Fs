@@ -9,6 +9,7 @@ import org.demointernetshop47fs.repository.ConfirmationCodeRepository;
 import org.demointernetshop47fs.repository.UserRepository;
 import org.demointernetshop47fs.service.exception.AlreadyExistException;
 import org.demointernetshop47fs.service.exception.NotFoundException;
+import org.demointernetshop47fs.service.mail.MailUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final ConfirmationCodeRepository confirmationCodeRepository;
+    private final MailUtil mailUtil;
 
 
     @Transactional
@@ -47,12 +49,21 @@ public class UserService {
         saveConfirmCode(user,code);
 
         // отправка кода по электронной почте
-        /*
-        sendMail
-         */
+
+        sendEmail(user,code);
 
         return UserDto.from(user);
 
+    }
+
+    private void sendEmail(User user, String code) {
+        String link = "localhost:8080/api/public/confirm?code=" + code;
+        mailUtil.send(
+                user.getFirstName(),
+                user.getLastName(),
+                link,
+                "Code confirmation email",
+                user.getEmail());
     }
 
     private void saveConfirmCode(User newUser, String codeUUID){
