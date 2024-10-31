@@ -1,6 +1,7 @@
 package org.demointernetshop47fs.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.demointernetshop47fs.dto.NewUserDto;
 import org.demointernetshop47fs.dto.UserDto;
 import org.demointernetshop47fs.entity.ConfirmationCode;
@@ -19,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -57,7 +59,8 @@ public class UserService {
     }
 
     private void sendEmail(User user, String code) {
-        String link = "localhost:8080/api/public/confirm?code=" + code;
+        String link = "http://localhost:8080/api/public/confirm?code=" + code;
+        log.info("ссылка для отправки email: {}", link);
         mailUtil.send(
                 user.getFirstName(),
                 user.getLastName(),

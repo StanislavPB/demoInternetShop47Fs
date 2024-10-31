@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MailUtil {
 
     private final Configuration freemakerConfiguration;
@@ -25,11 +27,13 @@ public class MailUtil {
         try {
             Template template = freemakerConfiguration.getTemplate("confirm_registration_mail.ftlh");
             Map<Object, Object> model = new HashMap<>();
-            model.put("firstNameLetter", firstName);
-            model.put("lastNameLetter", lastName);
-            model.put("linkLetter", link);
+            model.put("firstName", firstName);
+            model.put("lastName", lastName);
+            model.put("link", link);
 
-            return FreeMarkerTemplateUtils.processTemplateIntoString(template,model);
+            String emailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
+            log.info("Generated email content: {}", emailContent);
+            return emailContent;
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
