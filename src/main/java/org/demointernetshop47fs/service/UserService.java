@@ -60,7 +60,7 @@ public class UserService {
 
     private void sendEmail(User user, String code) {
         String link = "http://localhost:8080/api/public/confirm?code=" + code;
-        log.info("ссылка для отправки email: {}", link);
+//        log.info("ссылка для отправки email: {}", link);
         mailUtil.send(
                 user.getFirstName(),
                 user.getLastName(),

@@ -1,6 +1,7 @@
 package org.demointernetshop47fs.controller;
 
 import jakarta.validation.ConstraintViolationException;
+import org.demointernetshop47fs.dto.ErrorResponseDto;
 import org.demointernetshop47fs.service.exception.AlreadyExistException;
 import org.demointernetshop47fs.service.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -16,13 +17,13 @@ import java.util.Map;
 public class GlobalHandlerException {
 
     @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<String> handlerNullPointerException(NullPointerException e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ErrorResponseDto> handlerNullPointerException(NullPointerException e){
+        return new ResponseEntity<>(new ErrorResponseDto(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<String> handlerNotFoundException(NotFoundException e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponseDto> handlerNotFoundException(NotFoundException e){
+        return new ResponseEntity<>(new ErrorResponseDto(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AlreadyExistException.class)
@@ -33,7 +34,7 @@ public class GlobalHandlerException {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> handlerConstraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<ErrorResponseDto> handlerConstraintViolationException(ConstraintViolationException e) {
 
         StringBuilder responseMessage = new StringBuilder();
 
@@ -42,12 +43,12 @@ public class GlobalHandlerException {
             responseMessage.append(message).append("\n");
         });
 
-        return new ResponseEntity<>(responseMessage.toString(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ErrorResponseDto(responseMessage.toString()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
-    public ResponseEntity<String> handlerSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e){
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponseDto> handlerSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e){
+        return new ResponseEntity<>(new ErrorResponseDto(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
 

@@ -32,7 +32,7 @@ public class MailUtil {
             model.put("link", link);
 
             String emailContent = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
-            log.info("Generated email content: {}", emailContent);
+//            log.info("Generated email content: {}", emailContent);
             return emailContent;
         } catch (Exception e) {
             throw new IllegalStateException(e);
