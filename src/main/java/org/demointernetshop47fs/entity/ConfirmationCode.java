@@ -1,5 +1,6 @@
 package org.demointernetshop47fs.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class ConfirmationCode {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    //@JsonIgnore
     private User user;
 
     @Column(nullable = false)

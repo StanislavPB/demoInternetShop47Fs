@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -87,6 +88,9 @@ public class UserService {
                 .findByCodeAndExpiredDateTimeAfter(confirmCode, LocalDateTime.now())
                 .orElseThrow(() -> new NotFoundException("Код подтверждения не найден или его срок действия истек"));
 
+        code.setConfirmed(true);
+        confirmationCodeRepository.save(code);
+
         User user = code.getUser();
         user.setState(User.State.CONFIRMED);
         userRepository.save(user);
@@ -118,5 +122,15 @@ public class UserService {
         return UserDto.from(user);
     }
 
+    public List<User> findAllFull(){
+        return userRepository.findAll();
+    }
+
+    public List<ConfirmationCode> findCodesByUser(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Пользователь с email " + email + " не найден"));
+
+        return confirmationCodeRepository.findByUser(user);
+    }
 
 }

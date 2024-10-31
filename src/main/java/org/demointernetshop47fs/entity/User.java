@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Data
@@ -53,8 +54,5 @@ public class User {
     private State state;
 
     private String photoLink;
-
-    @OneToMany(mappedBy = "user")
-    private Set<ConfirmationCode> codes;
 
 }
