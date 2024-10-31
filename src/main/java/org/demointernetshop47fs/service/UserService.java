@@ -52,7 +52,7 @@ public class UserService {
 
         // отправка кода по электронной почте
 
-        sendEmail(user,code);
+        //sendEmail(user,code);
 
         return UserDto.from(user);
 
