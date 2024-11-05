@@ -1,6 +1,9 @@
 package org.demointernetshop47fs.service.exception;
 
-public class InvalidJwtException extends RuntimeException {
+
+import org.springframework.security.core.AuthenticationException;
+
+public class InvalidJwtException extends AuthenticationException {
     public InvalidJwtException(String message) {
         super(message);
     }

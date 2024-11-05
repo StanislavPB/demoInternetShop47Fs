@@ -25,6 +25,9 @@ public class LogConfig {
     @Pointcut("execution (public * org.demointernetshop47fs.service.*.*(..))")
     public void logForService(){}
 
+    @Pointcut("execution (public * org.demointernetshop47fs.security.*.*(..))")
+    public void logForSecurity(){}
+
     @Before("logForController()")
     public void beforeUsingAnyController(JoinPoint point){
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -44,6 +47,12 @@ public class LogConfig {
 
     @Before("logForService()")
     public void beforeUsingAnyService(JoinPoint point){
+        log.info("RUN SERVICE: \n SERVICE METHOD: {}.{}",
+                point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
+    }
+
+    @Before("logForSecurity()")
+    public void beforeUsingAnySecurity(JoinPoint point){
         log.info("RUN SERVICE: \n SERVICE METHOD: {}.{}",
                 point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
     }

@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final CustomUserDetailService customUserDetailService;
+    private final AuthenticationEntryPoint authenticationEntryPoint;
 
 
     @Override
@@ -33,14 +35,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         try {
             String jwt = getTokenFromRequest(request);
 
-            if (StringUtils.hasText(jwt) && jwtTokenProvider.validateToken(jwt)) {
+            log.info("JWT: {}", jwt);
+
+            if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
                 String userName = jwtTokenProvider.getUserNameFromJwt(jwt);
+                log.info("username: {}",  userName);
                 UserDetails userDetails = customUserDetailService.loadUserByUsername(userName);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (InvalidJwtException e) {
+            authenticationEntryPoint.commence(request, response, e);
             log.info("Error Jwt {}", e.getMessage());
+            return;
         }
 
         filterChain.doFilter(request,response);
