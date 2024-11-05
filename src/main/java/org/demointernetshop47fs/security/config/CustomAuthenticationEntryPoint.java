@@ -18,11 +18,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException {
         HttpStatus status = HttpStatus.UNAUTHORIZED;
-        String message = "Unauthorized: " + authException.getMessage();
+        String message = "Unauthorized: " + e.getMessage();
 
         response.setStatus(status.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

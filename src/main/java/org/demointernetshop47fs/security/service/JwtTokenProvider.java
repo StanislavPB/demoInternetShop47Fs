@@ -23,6 +23,7 @@ public class JwtTokenProvider {
     private long jwtLifeTime = 600000;
 
     public String createToken(String username){
+
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtLifeTime);
 
@@ -32,7 +33,7 @@ public class JwtTokenProvider {
                 .setSubject(username)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key, SignatureAlgorithm.HS256)
+                .signWith(key,SignatureAlgorithm.HS256)
                 .compact();
     }
 
