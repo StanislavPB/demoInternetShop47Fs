@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                     .parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJwt(token);
+                    .parseClaimsJwt(token); // !!!!!!!!
 
             return true;
         } catch (JwtException e) {
