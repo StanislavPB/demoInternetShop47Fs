@@ -30,7 +30,7 @@ public class GlobalHandlerException {
     public ResponseEntity<Map<String, String>> handlerAlreadyExistException(AlreadyExistException e){
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error",e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
