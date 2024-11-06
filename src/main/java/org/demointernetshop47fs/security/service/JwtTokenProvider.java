@@ -20,7 +20,7 @@ public class JwtTokenProvider {
 
     private String jwtSecret = "984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf";
 
-    private long jwtLifeTime = 600000;
+    private long jwtLifeTime = 60000;
 
     public String createToken(String username){
 
@@ -48,7 +48,7 @@ public class JwtTokenProvider {
                     .parserBuilder()
                     .setSigningKey(key)
                     .build()
-                    .parseClaimsJwt(token); // !!!!!!!!
+                    .parseClaimsJws(token); // !!!!!!!!
 
             return true;
         } catch (JwtException e) {
