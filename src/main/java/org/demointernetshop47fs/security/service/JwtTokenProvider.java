@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.demointernetshop47fs.service.exception.InvalidJwtException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -18,9 +19,11 @@ import java.util.Date;
 @Slf4j
 public class JwtTokenProvider {
 
-    private String jwtSecret = "984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf";
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
-    private long jwtLifeTime = 60000;
+    @Value("${jwt.lifetime}")
+    private long jwtLifeTime;
 
     public String createToken(String username){
 
