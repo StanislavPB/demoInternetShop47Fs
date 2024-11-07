@@ -1,6 +1,8 @@
 spring:
   datasource:
-    url: ${JDBC_DATABASE}
+    url: jdbc:mysql://localhost:3306/group47shop
+    username: root
+    password: root2023
   jpa:
     hibernate:
       ddl-auto: update
