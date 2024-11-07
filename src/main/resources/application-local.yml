@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    url: ${JDBC_DATABASE}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+  mail:
+    username: javalessons2024@gmail.com
+    password: icyjkuetmlcibotw
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+jwt:
+  secret: 984hg493gh0439rthr0429uruj2309yh937gc763fe87t3f89723gf
+  lifetime: 600000
+
+s3:
+  accessKey: DO007XUTKAMU8H2H3UKX
+  secretKey: jfq/BD66UAZpbtjrv0yj3xZ4PWcM4qjytI09yv3MNRw
+  endpoint: https://fra1.digitaloceanspaces.com
+  region: fra1
