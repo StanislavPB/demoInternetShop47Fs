@@ -55,4 +55,11 @@ public class User {
 
     private String photoLink;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FileInfo> photos = new HashSet<>();
+
+    public void addPhoto(FileInfo photo){
+        photos.add(photo);
+        photo.setUser(this);
+    }
 }

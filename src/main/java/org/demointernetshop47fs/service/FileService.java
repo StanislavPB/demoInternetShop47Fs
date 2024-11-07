@@ -26,6 +26,7 @@ public class FileService {
 
     private final FileInfoRepository repository;
     private final AmazonS3 amazonS3;
+    private final UserService userService;
 
 
     @Transactional
@@ -99,6 +100,7 @@ public class FileService {
 
         FileInfo fileInfo = new FileInfo().builder()
                 .link(link)
+                .user(userService.getCurrentUser())
                 .build();
 
         repository.save(fileInfo);
@@ -106,4 +108,6 @@ public class FileService {
         return new StandardResponseDto("Файл " + link + " успешно сохранен");
 
     }
+
+
 }

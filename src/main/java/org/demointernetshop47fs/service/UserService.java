@@ -3,6 +3,7 @@ package org.demointernetshop47fs.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.demointernetshop47fs.dto.NewUserDto;
+import org.demointernetshop47fs.dto.StandardResponseDto;
 import org.demointernetshop47fs.dto.UserDto;
 import org.demointernetshop47fs.entity.ConfirmationCode;
 import org.demointernetshop47fs.entity.User;
@@ -11,6 +12,8 @@ import org.demointernetshop47fs.repository.UserRepository;
 import org.demointernetshop47fs.service.exception.AlreadyExistException;
 import org.demointernetshop47fs.service.exception.NotFoundException;
 import org.demointernetshop47fs.service.mail.MailUtil;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +31,21 @@ public class UserService {
     private final ConfirmationCodeRepository confirmationCodeRepository;
     private final MailUtil mailUtil;
 
+
+    public User getCurrentUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        String email;
+
+        if (principal instanceof UserDetails){
+            email = ((UserDetails) principal).getUsername();
+        } else {
+            email = principal.toString();
+        }
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Пользователь с email: " + email + " не найден"));
+    }
 
     @Transactional
     public UserDto registration(NewUserDto newUser){
@@ -97,6 +115,15 @@ public class UserService {
 
         return UserDto.from(user);
 
+    }
+
+
+    public StandardResponseDto setPhotoLink(String fileLink){
+        User user = getCurrentUser(); // определяем текущего пользователя
+
+        user.setPhotoLink(fileLink);
+        userRepository.save(user);
+        return new StandardResponseDto("Фото успешно обновлено");
     }
 
 

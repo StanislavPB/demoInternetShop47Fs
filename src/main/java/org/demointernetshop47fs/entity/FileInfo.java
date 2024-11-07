@@ -1,5 +1,6 @@
 package org.demointernetshop47fs.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -19,6 +20,12 @@ public class FileInfo {
 
     @Column(length = 1000)
     private String link;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    private User user;
+
 
     @Override
     public final boolean equals(Object o) {
