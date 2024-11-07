@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .exceptionHandling(eh -> eh
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN)))
+                .addFilterBefore(new BasicAuthFilter(authenticationManager(http.getSharedObject(AuthenticationConfiguration.class))), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
