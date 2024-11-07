@@ -15,7 +15,7 @@ public class FilesController {
     private final FileService service;
 
     @PostMapping("/api/files")
-    public StandardResponseDto upload(@RequestParam("file")MultipartFile file){
+    public StandardResponseDto upload(@RequestParam("uploadFile")MultipartFile file){
         return service.upload(file);
     }
 }
